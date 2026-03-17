@@ -2,6 +2,12 @@
 
 A Claude Code skill that generates a stunning personal website from your resume PDF — deployed to GitHub Pages in minutes.
 
+## Demo
+
+https://github.com/user-attachments/assets/f2784f72-f2c2-411b-8e1a-a3bb8938d078
+
+https://github.com/user-attachments/assets/233a4298-272f-4c05-9c07-4366ce166e91
+
 ## Quick Start
 
 **1. Fork this repo**
