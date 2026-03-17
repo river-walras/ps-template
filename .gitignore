@@ -9,3 +9,6 @@
 
 # Node (if any tooling is added)
 node_modules/
+
+# env files
+.env

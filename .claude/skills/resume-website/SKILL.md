@@ -304,12 +304,14 @@ Create the static HTML website in the current working directory.
 **Content Mapping from Resume:**
 - Hero section with name, title, and a compelling one-liner
 - About section with professional summary
-- Experience section with timeline or cards
+- Experience section with timeline or cards — if displaying company logos, use the `logo-search` skill to fetch them via logo.dev CDN (e.g. `<img src="https://img.logo.dev/stripe.com?token=pk_...">`)
 - Skills section with visual representation (bars, tags, or grouped categories)
-- Education section
+- Education section — same as above, use `logo-search` for university/institution logos if desired
 - Projects section (if applicable)
 - Contact section with links and optional form
 - Footer with social links
+
+**Logo integration:** If the user's resume includes companies, clients, or institutions and their design calls for visual logos (e.g. a client logo carousel, company timeline with logos), invoke the `logo-search` skill. It supports both direct domain lookup and brand name search, and returns a ready-to-use CDN image URL. The `pk_` publishable key goes in the `.env` file.
 
 **Design Execution:**
 Apply the design system from Step 5. Then go further:
