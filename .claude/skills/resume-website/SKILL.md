@@ -237,9 +237,147 @@ Once you have their answer, **hold it as the anchor for everything that follows.
 
 Now generate color palette options that actually work within the theme they chose. If they picked light, show light palettes — not "here are 5 options, 3 of which are dark". Same for visual style — show styles that are coherent with the vibe they chose. Use the Design Aesthetics Mandate's palette archetypes as a starting point and adapt them.
 
+**Showing colors visually:** Before asking the color question, generate a temporary `color_preview.html` file and open it in the browser so the user can see real swatches. Then ask them to pick by name/number.
+
+Generate 3–4 palette options. Each palette should have: background, surface, accent, and text colors. Write the HTML like this:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Pick your palette</title>
+<style>
+  body { font-family: sans-serif; padding: 32px; background: #f5f5f5; }
+  .palettes { display: flex; flex-wrap: wrap; gap: 24px; }
+  .palette { border-radius: 12px; overflow: hidden; width: 260px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+  .swatch { height: 56px; display: flex; align-items: center; padding: 0 16px; font-size: 13px; font-weight: 500; }
+  .label { padding: 14px 16px; background: white; }
+  .label h3 { margin: 0 0 4px; font-size: 15px; }
+  .label p { margin: 0; font-size: 12px; color: #666; }
+</style>
+</head>
+<body>
+<h2>Choose a color palette</h2>
+<div class="palettes">
+  <!-- Repeat this block for each palette option -->
+  <div class="palette">
+    <div class="swatch" style="background:#1a2e1a; color:#f5f0e8;">Background</div>
+    <div class="swatch" style="background:#243824; color:#f5f0e8;">Surface</div>
+    <div class="swatch" style="background:#c9a84c; color:#1a2e1a;">Accent</div>
+    <div class="swatch" style="background:#f5f0e8; color:#1a2e1a;">Text</div>
+    <div class="label">
+      <h3>1. Forest &amp; Gold</h3>
+      <p>Organic authority — deep green, warm gold, cream</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+```
+
+Save it as `color_preview.html` in the current directory, then run `open color_preview.html`. Tell the user: "I've opened a color preview in your browser — take a look and tell me which palette number you like."
+
+After they pick, delete `color_preview.html` and continue with `AskUserQuestion` for the remaining visual style choices (no need to re-show colors there).
+
 #### Round 3 — Typography + animation + background (adapted to Rounds 1–2)
 
 Typography options should match both their field and the color/style they chose. A dark, terminal-aesthetic site should see monospace headline options; a light, editorial site should see high-contrast serifs. Animation and background texture should similarly be generated to feel at home within the choices already locked in — not pulled from a generic menu.
+
+**Showing typography + background visually:** Generate a `design_preview.html` and open it before asking Round 3 questions. This file should show 3–4 typography pairings AND background texture options, all rendered using the palette the user already chose.
+
+Each typography option should show:
+- The headline font rendering a sample name (use the user's actual name from the resume)
+- The body font rendering a short sample bio sentence
+- The font pairing name and mood
+
+Each background option should show the actual CSS technique (mesh gradient, grid lines, grain, etc.) applied as a live preview panel.
+
+Structure the HTML like this:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Typography & Background Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- Load all candidate Google Fonts here -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;700&family=Lora&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 32px; background: #111; color: #eee; font-family: sans-serif; }
+  h2 { margin-bottom: 8px; font-size: 16px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5; }
+  .section { margin-bottom: 48px; }
+  .options { display: flex; flex-wrap: wrap; gap: 20px; }
+
+  /* Typography cards — use the chosen palette colors */
+  .type-card {
+    width: 320px; border-radius: 12px; overflow: hidden;
+    padding: 28px; cursor: pointer;
+    background: var(--color-surface);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform 0.15s;
+  }
+  .type-card:hover { transform: translateY(-3px); }
+  .type-card .headline { font-size: 28px; margin: 0 0 8px; color: var(--color-text); }
+  .type-card .body-sample { font-size: 14px; line-height: 1.6; opacity: 0.7; color: var(--color-text); }
+  .type-card .meta { margin-top: 16px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); }
+
+  /* Background preview panels */
+  .bg-card {
+    width: 320px; height: 160px; border-radius: 12px; cursor: pointer;
+    display: flex; align-items: flex-end; padding: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform 0.15s;
+  }
+  .bg-card:hover { transform: translateY(-3px); }
+  .bg-card .bg-label {
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+    padding: 6px 12px; border-radius: 6px; font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<!-- Set palette CSS vars from the user's chosen palette -->
+<style>
+  :root {
+    --color-bg: #0d1b2a;
+    --color-surface: #1a2e42;
+    --color-accent: #00d4ff;
+    --color-text: #e0f0ff;
+  }
+  body { background: var(--color-bg); }
+</style>
+
+<div class="section">
+  <h2>Typography Pairings</h2>
+  <div class="options">
+    <div class="type-card">
+      <div class="headline" style="font-family:'Cormorant Garamond',serif; font-weight:600;">Alex Johnson</div>
+      <div class="body-sample" style="font-family:'DM Sans',sans-serif;">Senior software engineer with 8 years building distributed systems at scale.</div>
+      <div class="meta">1. Cormorant + DM Sans — editorial contrast</div>
+    </div>
+    <!-- Add more type-card blocks for each pairing option -->
+  </div>
+</div>
+
+<div class="section">
+  <h2>Background Textures</h2>
+  <div class="options">
+    <div class="bg-card" style="background: radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.15) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(0,100,200,0.1) 0%, transparent 50%), var(--color-bg);">
+      <div class="bg-label">1. Mesh gradient</div>
+    </div>
+    <!-- Add more bg-card blocks for each texture option -->
+  </div>
+</div>
+
+</body>
+</html>
+```
+
+Save as `design_preview.html`, run `open design_preview.html`, and tell the user: "Here's a preview of font and background options — all shown in your chosen colors. Let me know which typography number and background number you like."
+
+After they pick, delete `design_preview.html` and use `AskUserQuestion` only for animation level (which can't be previewed statically).
 
 #### Round 4 — Content layout + assets + special features
 

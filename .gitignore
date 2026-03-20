@@ -12,3 +12,8 @@ node_modules/
 
 # env files
 .env
+
+# Resume website skill — temporary design preview files
+color_preview.html
+design_preview.html
+*.mp4
